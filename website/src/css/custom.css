@@ -1,0 +1,78 @@
+/**
+ * Report Hub theme. Docusaurus uses Infima; override a few variables for a
+ * clean, professional look. Tweak the accent color to match your brand.
+ */
+
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Center any image whose alt/title you don't want to wrap in HTML: just add
+   the ".centered" trick is not needed — reports use <p align="center">. But
+   make markdown images render tidily by default. */
+.markdown img {
+  border-radius: 8px;
+}
+
+/* Constrain very wide mermaid diagrams to the content width. */
+.docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Centered, size-controllable figure. Put a Markdown image inside a
+   <div class="report-img" style="max-width:NNNpx"> (with blank lines around the
+   image) — the image is bundled by Docusaurus AND centered + resized. */
+.report-img {
+  margin: 1.2rem auto;
+  text-align: center;
+}
+.report-img img {
+  width: 100%;
+  height: auto;
+}
+.report-img em {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+}
+
+/* Two (or more) images side by side, centered. Put several Markdown images on
+   adjacent lines inside <div class="report-row"> (blank lines around the block). */
+.report-row {
+  margin: 1.2rem auto;
+}
+.report-row p {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.report-row img {
+  flex: 1 1 0;
+  min-width: 200px;
+  max-width: 48%;
+  height: auto;
+}

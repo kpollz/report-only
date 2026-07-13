@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="800" height="450" rx="14" fill="#0b1220"/>
+  <text x="400" y="46" text-anchor="middle" font-size="24" font-weight="700" fill="#e2e8f0">Sơ đồ luồng dữ liệu</text>
+
+  <g>
+    <circle cx="140" cy="230" r="52" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="140" y="235" text-anchor="middle" font-size="15" font-weight="600" fill="#38bdf8">Source</text>
+
+    <circle cx="400" cy="140" r="52" fill="#1e293b" stroke="#34d399" stroke-width="2.5"/>
+    <text x="400" y="145" text-anchor="middle" font-size="15" font-weight="600" fill="#34d399">Queue</text>
+
+    <circle cx="400" cy="320" r="52" fill="#1e293b" stroke="#fbbf24" stroke-width="2.5"/>
+    <text x="400" y="325" text-anchor="middle" font-size="15" font-weight="600" fill="#fbbf24">Worker</text>
+
+    <circle cx="660" cy="230" r="52" fill="#1e293b" stroke="#f472b6" stroke-width="2.5"/>
+    <text x="660" y="235" text-anchor="middle" font-size="15" font-weight="600" fill="#f472b6">Warehouse</text>
+  </g>
+
+  <g stroke="#475569" stroke-width="2.5" fill="none">
+    <line x1="188" y1="210" x2="352" y2="155"/>
+    <line x1="188" y1="250" x2="352" y2="305"/>
+    <line x1="448" y1="155" x2="612" y2="212"/>
+    <line x1="448" y1="305" x2="612" y2="248"/>
+    <line x1="400" y1="192" x2="400" y2="268" stroke-dasharray="5 5"/>
+  </g>
+  <text x="400" y="424" text-anchor="middle" font-size="12" fill="#64748b">Topology giả lập — mock data</text>
+</svg>
