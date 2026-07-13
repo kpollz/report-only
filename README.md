@@ -78,6 +78,17 @@ flowchart TD
 
 ---
 
+## Trang chủ (danh sách báo cáo)
+
+Trang chủ của site là file `index.mdx` ở gốc repo (`slug: /`). Nó **tự sinh** một
+cây liệt kê mọi dự án/báo cáo — mở/thu gọn giống thanh sidebar bên trái, bấm vào
+là nhảy tới báo cáo. Cây đọc thẳng từ cấu trúc thư mục (component
+`website/src/components/ReportTree.js`), nên **thêm/bớt folder là tự cập nhật**,
+không phải sửa gì.
+
+> File `README.md` này **không** hiển thị trên site (đã cho vào `exclude`) — nó chỉ
+> là trang giới thiệu trên GitHub.
+
 ## Xem trước & triển khai
 
 Toàn bộ website nằm trong thư mục `website/`. Xem file `website/SETUP.md` (trong

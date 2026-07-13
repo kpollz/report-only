@@ -30,19 +30,23 @@ npm run serve        # phục vụ bản build tại http://localhost:3000
 ## 2. Những file CẦN COPY sang repo thật
 
 Repo thật của bạn đã có sẵn các folder report ở gốc (format y hệt repo mock này).
-Bạn chỉ cần bổ sung **phần website + workflow**. Copy đúng các mục sau:
+Bạn chỉ cần bổ sung **phần website + workflow + trang chủ**. Copy đúng các mục sau:
 
 ```
+index.mdx                   ← TRANG CHỦ ở GỐC repo (slug '/'): tự liệt kê mọi báo cáo
+
 website/
 ├── package.json            ← khai báo dependencies (đã gồm mermaid + elk)
 ├── package-lock.json       ← BẮT BUỘC copy (CI dùng `npm ci`)
-├── docusaurus.config.js    ← cấu hình chính (đọc report ở ../, bật mermaid)
+├── docusaurus.config.js    ← cấu hình chính (đọc report ở ../, bật mermaid, brand "Report")
 ├── sidebars.js             ← sidebar tự sinh từ cây folder
 ├── .gitignore              ← bỏ qua node_modules/, build/
 ├── SETUP.md                ← file hướng dẫn này (tùy chọn)
 └── src/
+    ├── components/
+    │   └── ReportTree.js   ← component vẽ cây báo cáo cho trang chủ (đọc thẳng sidebar)
     └── css/
-        └── custom.css      ← theme + CSS cho .report-img / .report-row
+        └── custom.css      ← theme + CSS cho .report-img / .report-row / .report-tree
 
 .github/
 └── workflows/
@@ -52,12 +56,22 @@ website/
 **KHÔNG copy:** `website/node_modules/` và `website/build/` — hai thư mục này tự
 sinh lại (`npm install` / `npm run build`), đã nằm trong `.gitignore`.
 
+> **Trang chủ (`index.mdx`)** là cái tự sinh danh sách báo cáo (mở/thu gọn giống
+> sidebar). Nó có `slug: /` nên chiếm route trang chủ. **Nếu repo thật của bạn có
+> `README.md` ở gốc**, nó cũng mặc định là trang `/` → **trùng route**. Xử lý: đã
+> thêm `'README.md'` vào mảng `exclude` trong `docusaurus.config.js` để README chỉ
+> làm landing page trên GitHub, không vào site. (Repo bạn không có README thì bỏ
+> qua, vô hại.)
+
 Lệnh gợi ý (chạy từ gốc repo mock, thay `ĐƯỜNG_DẪN_REPO_THẬT`):
 
 ```bash
 # copy thư mục website (trừ node_modules & build)
 rsync -av --exclude node_modules --exclude build \
   website/ ĐƯỜNG_DẪN_REPO_THẬT/website/
+
+# copy TRANG CHỦ (index.mdx ở gốc repo)
+cp index.mdx ĐƯỜNG_DẪN_REPO_THẬT/index.mdx
 
 # copy workflow
 mkdir -p ĐƯỜNG_DẪN_REPO_THẬT/.github/workflows
@@ -82,6 +96,38 @@ cp .github/workflows/deploy.yml ĐƯỜNG_DẪN_REPO_THẬT/.github/workflows/
 
 > Nếu dùng **custom domain** hoặc **user/org page** (`<org>.github.io` — repo tên
 > đúng dạng đó), đặt `BASE_URL: /` trong `deploy.yml`.
+
+### GitHub Enterprise Server (GHES)
+
+`SITE_URL`/`BASE_URL` **phải khớp đúng URL mà GHES phục vụ**, nếu lệch thì
+Docusaurus render trang "Page Not Found" của chính nó (không phải 404 server).
+GHES có 2 quy ước URL tùy cấu hình *subdomain isolation* — **đừng trộn lẫn**:
+
+| Subdomain isolation | URL phục vụ | `SITE_URL` | `BASE_URL` |
+|---|---|---|---|
+| **BẬT** (host có tiền tố `pages.`) | `https://pages.<HOST>/<owner>/<repo>/` | `https://pages.<HOST>` | `/<owner>/<repo>/` |
+| **TẮT** | `https://<HOST>/pages/<owner>/<repo>/` | `https://<HOST>` | `/pages/<owner>/<repo>/` |
+
+Cách nhận biết: nhìn URL thật đang mở được. Có tiền tố `pages.` ở host = BẬT
+(khi đó path **không** có `/pages/`). Không có `pages.` ở host mà path bắt đầu
+bằng `/pages/` = TẮT.
+
+Ví dụ (isolation BẬT, `pages.github.sec.samsung.net/dtung-vu/report-only/`):
+
+```yaml
+      - name: Build website
+        working-directory: website
+        env:
+          SITE_URL: https://pages.github.sec.samsung.net
+          BASE_URL: /${{ github.repository_owner }}/${{ github.event.repository.name }}/
+          GH_ORG: ${{ github.repository_owner }}
+          GH_REPO: ${{ github.event.repository.name }}
+        run: npm run build
+```
+
+> `baseUrl` bị **bake lúc build** → mỗi lần đổi phải chạy lại workflow và
+> hard-refresh trình duyệt. Kiểm tra nhanh: mở `website/build/index.html`, các
+> `src=`/`href=` phải bắt đầu bằng đúng `BASE_URL`.
 
 ---
 

@@ -47,8 +47,16 @@ jobs:
       - name: Build website
         working-directory: website
         env:
+          # --- GitHub.com Pages (mặc định) ---
           SITE_URL: https://${{ github.repository_owner }}.github.io
           BASE_URL: /${{ github.event.repository.name }}/
+          # --- GitHub Enterprise Server, subdomain isolation BẬT ---
+          #   host phục vụ có tiền tố `pages.`, path KHÔNG có `/pages/`:
+          #   SITE_URL: https://pages.<HOST>          (vd: https://pages.github.sec.samsung.net)
+          #   BASE_URL: /${{ github.repository_owner }}/${{ github.event.repository.name }}/
+          # --- GHES subdomain isolation TẮT ---
+          #   SITE_URL: https://<HOST>
+          #   BASE_URL: /pages/${{ github.repository_owner }}/${{ github.event.repository.name }}/
           GH_ORG: ${{ github.repository_owner }}
           GH_REPO: ${{ github.event.repository.name }}
         run: npm run build

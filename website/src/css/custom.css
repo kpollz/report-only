@@ -76,3 +76,65 @@
   max-width: 48%;
   height: auto;
 }
+
+/* -------------------------------------------------------------------------
+   Homepage report index (<ReportTree/>): the same tree as the left sidebar,
+   rendered in the main content as an expandable table of contents.
+   ------------------------------------------------------------------------- */
+.report-tree-root {
+  margin-top: 0.5rem;
+}
+.report-tree,
+.report-tree ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+/* Indent nested levels via the nested <ul> inside each <details>. */
+.report-tree details > ul {
+  padding-left: 1.1rem;
+  margin: 0.15rem 0 0.35rem;
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+}
+.report-tree li {
+  margin: 0.2rem 0;
+}
+/* Category (project / folder) header. */
+.report-tree__summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.15rem 0;
+  list-style: none;
+}
+.report-tree__summary::-webkit-details-marker {
+  display: none;
+}
+/* Custom disclosure triangle that rotates when open. */
+.report-tree__summary::before {
+  content: '▸';
+  display: inline-block;
+  width: 1rem;
+  color: var(--ifm-color-emphasis-600);
+  transition: transform 0.15s ease;
+}
+.report-tree details[open] > .report-tree__summary::before {
+  transform: rotate(90deg);
+}
+/* Leaf report link. */
+.report-tree__leaf a {
+  display: inline-block;
+  padding: 0.15rem 0 0.15rem 1rem;
+}
+.report-tree__leaf a::before {
+  content: '•';
+  margin-left: -1rem;
+  margin-right: 0.4rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+/* The homepage (index.mdx, slug '/') is reached via the navbar brand, so hide
+   its duplicate entry from the left sidebar. The class lands on the <li> itself,
+   so this must be a compound selector (no space). */
+.menu__list-item.hidden-sidebar-entry {
+  display: none;
+}

@@ -17,7 +17,7 @@ const GH_REPO = process.env.GH_REPO || 'report-hub';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Report Hub',
+  title: 'Report',
   tagline: 'Trung tâm báo cáo nội bộ',
   favicon: undefined,
 
@@ -70,6 +70,10 @@ const config = {
             '**/.git/**',
             '**/_*.{js,jsx,ts,tsx,md,mdx}',
             '**/_*/**',
+            // The repo-root README is the GitHub landing page, NOT a report.
+            // The site homepage is index.mdx (slug '/'). Exclude README so it
+            // doesn't clash with '/'. (Your real repo has no README — harmless.)
+            'README.md',
           ],
         },
         blog: false,
@@ -87,19 +91,14 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Report Hub',
-        items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'reportsSidebar',
-            position: 'left',
-            label: 'Báo cáo',
-          },
-        ],
+        // Brand text links to '/' = the homepage report index. No extra nav
+        // items — the whole site is the report browser.
+        title: 'Report',
+        items: [],
       },
       footer: {
         style: 'dark',
-        copyright: `Report Hub · Built with Docusaurus`,
+        copyright: `Report · Built with Docusaurus`,
       },
       prism: {
         theme: prismThemes.github,
